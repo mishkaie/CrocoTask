@@ -1,7 +1,8 @@
 <div class="category-filter">
-  <button *ngFor="let provider of gameProviders" (click)="onProviderSelect(provider)">
-    {{ provider }}
+  <button *ngFor="let category of (gameCategories$ | async); trackBy: trackByCategory"
+          [class.active]="isActiveCategory(category)"
+          (click)="onCategorySelect(category)">
+    <span class="category-name">{{ category.name }}</span>
+    <span class="category-count">{{ category.totalGames }}</span>
   </button>
 </div>
-
-<span *ngIf="gameCategories$ | async"></span>

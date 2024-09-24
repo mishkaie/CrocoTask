@@ -1,11 +1,18 @@
-export interface ProviderInterface {
+export interface FilteredProviderInterface {
   name: string,
   provider: string
 }
 
-export interface ProviderApiInterface {
-  data: [{
-    name: string,
-    provider: string
-  }]
+export interface ProviderRequestApiInterface {
+  data: ProviderInterface[]
+}
+
+export interface ProviderInterface {
+  name: string,
+  provider: string,
+  enabled: boolean,
+  gamesCount: number,
+  tags: string[],
+  type: string,
+  logo: string
 }

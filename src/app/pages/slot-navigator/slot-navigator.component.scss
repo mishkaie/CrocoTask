@@ -1,0 +1,46 @@
+$line: #189541;
+
+.category-filter {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.5rem 0 0.5rem 1.2rem;
+  background-color:  #1D242C;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+
+
+  button {
+    position: relative;
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 0;
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.3s;
+
+    .category-name {
+      display: inline-block;
+    }
+
+    .category-count {
+      position: absolute;
+      top: 0;
+      right: -15px;
+      background-color: $line;
+      color: white;
+      font-size: 10px;
+      padding: 2px 5px;
+      border-radius: 50%;
+    }
+
+    &:hover {
+      color: $line; // Change color on hover
+    }
+
+    &.active {
+      border-bottom-color: $line; // Green underline for the active category
+    }
+  }
+}

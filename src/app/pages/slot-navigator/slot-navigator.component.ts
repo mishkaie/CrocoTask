@@ -1,7 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, Signal} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage, UpperCasePipe} from "@angular/common";
 import {Observable} from "rxjs";
 import {HttpDataService} from "../../core/services/http-data.service";
+import {FilteredCategoryInterface} from "../../core/interfaces/categoryInterface";
+import {SharedStateService} from "../../core/services/shared-state.service";
 
 @Component({
   selector: 'app-slot-navigator',
@@ -16,28 +18,29 @@ import {HttpDataService} from "../../core/services/http-data.service";
   templateUrl: './slot-navigator.component.html',
   styleUrl: './slot-navigator.component.scss',
 })
-export class SlotNavigatorComponent {
-  gameProviders = [
-    'EGT', 'NET ENT', 'IGROSOFT', 'GAME ART', 'PRAGMATIC PLAY',
-    'ISOFTBET', 'PLAYSON', 'MULTISLOT', '1X2 GAMING'
-  ];
+export class SlotNavigatorComponent implements OnInit {
+  activeCategorySignal!: Signal<FilteredCategoryInterface | null>;  // Signal for the active category
+  constructor(
+    private httpService: HttpDataService,
+    private sharedState: SharedStateService
+  ) {}
 
-  constructor(private httpService: HttpDataService) {
+  gameCategories$: Observable<FilteredCategoryInterface[]> = this.httpService.getSlotCategories();
+  ngOnInit(): void {
+    // Subscribe to the active category signal
+    this.activeCategorySignal = this.sharedState.activeCategory$;
+  }
+  onCategorySelect(category: FilteredCategoryInterface): void {
+    this.sharedState.setActiveCategory(category); // Update the active category in the service
+    // this.sharedState.updateSlotState(category)
   }
 
-  gameCategories$: Observable<any> = this.httpService.getSlotCategories();
-
-  onProviderSelect(provider: string) {
-    // Handle game provider selection logic
+  trackByCategory(index: number, category: FilteredCategoryInterface): string {
+    return category.name;
   }
-  // categories = [
-  //   { name: 'Top Slots', id: 1 },
-  //   { name: 'Favorites', id: 2 },
-  //   { name: 'New Games', id: 3 },
-  //   { name: 'Buy Bonus', id: 4 },
-  //   { name: 'History', id: 5 }
-  // ];
-  //
 
-
+  // Check if a category is active
+  isActiveCategory(category: FilteredCategoryInterface): boolean {
+    return this.activeCategorySignal() === category;
+  }
 }

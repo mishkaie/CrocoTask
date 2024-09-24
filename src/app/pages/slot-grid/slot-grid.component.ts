@@ -1,22 +1,29 @@
 import { Component } from '@angular/core';
-import {NgForOf} from "@angular/common";
+import {AsyncPipe, NgClass, NgForOf, NgOptimizedImage} from "@angular/common";
 import {SlotCardComponent} from "../slot-card/slot-card.component";
+import {gameInterface} from "../../core/interfaces/gameInterface";
+import {HttpDataService} from "../../core/services/http-data.service";
+import {SharedStateService} from "../../core/services/shared-state.service";
 
 @Component({
   selector: 'app-slot-grid',
   standalone: true,
   imports: [
     NgForOf,
-    SlotCardComponent
+    SlotCardComponent,
+    NgClass,
+    AsyncPipe,
+    NgOptimizedImage
   ],
   templateUrl: './slot-grid.component.html',
   styleUrl: './slot-grid.component.scss'
 })
 export class SlotGridComponent {
-  games = [
-    { name: 'Burning Hot', imageUrl: 'assets/burning-hot.jpg' },
-    { name: 'Temple of Nudges', imageUrl: 'assets/temple-of-nudges.jpg' },
-    { name: 'Starburst', imageUrl: 'assets/starburst.jpg' },
-    // Add other games here
-  ];
+  games$ = this.httpService.getSlotsByProvider();
+  constructor(
+    private httpService: HttpDataService,
+    private sharedState: SharedStateService ) {}
+  playGame(game: gameInterface | any) {
+    console.log(game)
+  }
 }

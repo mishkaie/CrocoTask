@@ -2,7 +2,8 @@ import {Component, signal} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage, UpperCasePipe} from "@angular/common";
 import {HttpDataService} from "../../core/services/http-data.service";
 import { Observable, tap} from "rxjs";
-import {ProviderInterface} from "../../core/interfaces/providerInterface";
+import {FilteredProviderInterface, ProviderInterface} from "../../core/interfaces/providerInterface";
+import {SharedStateService} from "../../core/services/shared-state.service";
 @Component({
   selector: 'app-slot-providers',
   standalone: true,
@@ -23,10 +24,12 @@ export class SlotProvidersComponent {
   visibleCount = signal(10);
   // Parameter to save providers length
   providerLength: number = 0;
-  providers$: Observable<ProviderInterface[]> = this.httpService.getProviders().pipe(
+  providers$: Observable<FilteredProviderInterface[]> = this.httpService.getProviders().pipe(
     tap(res => this.providerLength = res.length)
   ); // Observable to hold providers
-  constructor(private httpService: HttpDataService) {}
+  constructor(
+    private httpService: HttpDataService,
+    private sharedState: SharedStateService ) {}
 
   // Toggle the "See More" functionality
   toggleSeeMore() {
@@ -40,7 +43,13 @@ export class SlotProvidersComponent {
     this.showMore.update(value => !value);
   }
 
-  filterByProvider(provider: ProviderInterface) {
+  filterByProvider(provider: FilteredProviderInterface) {
+    //Remove active from categories
+    this.sharedState.clearActiveCategory();
     console.log(`Filtered by: ${provider.name}`);
+  }
+
+  trackByProvider(index: number, provider: FilteredProviderInterface) {
+    return provider.name;
   }
 }
