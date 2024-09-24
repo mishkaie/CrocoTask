@@ -1,0 +1,62 @@
+$sidebar-width: 77px;
+$background-color:  #252B33;
+$line: #189541;
+
+:host {
+  background-color: $background-color;
+}
+
+.sidebar {
+  width: $sidebar-width;
+  height: 100vh;
+
+  .icon-list {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+
+    .icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1.35rem 1rem 1.35rem 1rem;
+      cursor: pointer;
+
+      &:first-child {
+        margin-top: 0.3rem;
+      }
+      &:nth-child(4) {
+        position: relative; // Enable positioning for the line
+
+        &::before {
+          content: "";
+          position: absolute;
+          left: -1rem;
+          top: 0;
+          height: 100%;
+          width: 0.22rem;
+          background-color: $line;
+          border-top-right-radius: 10px;
+          border-bottom-right-radius: 10px;
+        }
+      }
+
+      .icon {
+        object-fit: contain;
+      }
+
+      &:hover {
+        &:not(:first-child) {
+          .icon {
+            filter: brightness(0) invert(1); // Example hover effect for the icon
+          }
+          .icon-name {
+            color: #000;  // Change text color on hover
+          }
+        }
+      }
+    }
+  }
+}

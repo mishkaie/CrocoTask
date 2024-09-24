@@ -1,0 +1,33 @@
+.game-card {
+  background-color: #1c1c1c;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+
+  // Nested styles for the image within .game-card
+  img {
+    width: 100%;
+    border-radius: 4px;
+  }
+
+  // Nested styles for the .game-info section within .game-card
+  .game-info {
+    margin-top: 10px;
+
+    // Styles for the button within .game-info
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+
+      // Hover state for the button
+      &:hover {
+        background-color: #218838;
+      }
+    }
+  }
+}

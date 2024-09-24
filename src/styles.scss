@@ -1,0 +1,13 @@
+$background-color: #1A1E23;
+
+
+html, body, {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: $background-color;
+}
+
+* {
+  box-sizing: border-box;
+}

@@ -1,0 +1,20 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-container">
+    <div class="top-bar"></div>
+
+    <div class="image-container">
+      <img ngSrc="assets/images/slots-background.png" priority alt="promotion" class="full-image" height="420" width="1585"/>
+    </div>
+
+    <div class="navigation">
+      <app-slot-navigator></app-slot-navigator>
+      <app-slot-providers></app-slot-providers>
+    </div>
+
+    <div class="main-content">
+      <app-slot-grid></app-slot-grid>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+
+<div class="provider-section">
+  <ul class="provider-list">
+    <ng-container *ngIf="(providers$ | async) as providers">
+      <!-- Display all providers based on visibleCount and showMore -->
+      <li *ngFor="let provider of providers.slice(0, showMore() ? providers.length : visibleCount())"
+          (click)="filterByProvider(provider)">
+        {{ provider.name }}
+      </li>
+
+      <!-- See More / See Less button -->
+      <li *ngIf="providers.length > 0" class="see-more">
+        <div (click)="toggleSeeMore()">
+          <button >
+            {{ showMore() ? 'See Less' : 'See More' }}
+          </button>
+          <img ngSrc="assets/images/icons/arrow-down.svg" [alt]="'arrow'"  class="icon" height="12" width="12" [class.rotate]="showMore()"/>
+        </div>
+      </li>
+    </ng-container>
+  </ul>
+</div>

@@ -1,0 +1,7 @@
+<div class="category-filter">
+  <button *ngFor="let provider of gameProviders" (click)="onProviderSelect(provider)">
+    {{ provider }}
+  </button>
+</div>
+
+<span *ngIf="gameCategories$ | async"></span>

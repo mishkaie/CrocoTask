@@ -1,0 +1,8 @@
+<aside class="sidebar">
+  <ul class="icon-list">
+    <li class="icon-item" *ngFor="let option of options">
+      <img [ngSrc]="option.icon" [alt]="option.name" class="icon" height="50" width="50"/>
+<!--      <span class="icon-name">{{ option.name }}</span>-->
+    </li>
+  </ul>
+</aside>
