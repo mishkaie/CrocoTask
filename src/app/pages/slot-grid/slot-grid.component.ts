@@ -23,7 +23,5 @@ export class SlotGridComponent {
   constructor(
     private httpService: HttpDataService,
     private sharedState: SharedStateService ) {}
-  playGame(game: gameInterface | any) {
-    console.log(game)
-  }
+
 }

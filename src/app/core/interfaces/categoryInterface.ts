@@ -4,7 +4,7 @@ export interface FilteredCategoryInterface {
   name: string,
   category: string,
   totalGames: number,
-  icon?: string
+  games: gameInterface[]
 }
 
 export interface CategoryRequestApiInterface {

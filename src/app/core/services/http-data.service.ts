@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, EMPTY, map, Observable, shareReplay, tap} from "rxjs";
+import {catchError, EMPTY, map, Observable, shareReplay, tap, throwError} from "rxjs";
 import {
   FilteredProviderInterface,
   ProviderInterface,
@@ -11,6 +11,7 @@ import {
   CategoryRequestApiInterface,
   FilteredCategoryInterface
 } from "../interfaces/categoryInterface";
+import { API_ENDPOINTS } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class HttpDataService {
   * */
   public getProviders(): Observable<FilteredProviderInterface[]> {
     return this.http
-      .get<ProviderRequestApiInterface>('https://cms.crocobet.com/integrations?type=slot&platform=desktop')
+      .get<ProviderRequestApiInterface>(API_ENDPOINTS.PROVIDERS)
       .pipe(
         map((res) => {
           const providers = res?.data.map((game: ProviderInterface) => {
@@ -36,7 +37,7 @@ export class HttpDataService {
           // Use a Set to filter out unique providers
           return Array.from(new Set(providers));
         }),
-        catchError(() => EMPTY),
+        catchError(this.handleError),
         shareReplay(1)
       );
   }
@@ -46,19 +47,17 @@ export class HttpDataService {
   * */
   public getSlotsByProvider(provider: string = 'egt'): Observable<any> {
     return this.http
-      .get<any>(`https://cms.crocobet.com/integrations/v2/slot/providers/${provider}`)
+      .get<any>(`${API_ENDPOINTS.SLOTS_BY_PROVIDER}${provider}`)
       .pipe(
         map(res => res.data.games),
-        catchError(() => {
-          return EMPTY;
-        }),
+        catchError(this.handleError),
       )
   }
 
 
   public getSlotCategories(): Observable<FilteredCategoryInterface[]>{
     return this.http
-      .get<CategoryRequestApiInterface>('https://cms.crocobet.com/integrations/v2/slot/categories?include=games')
+      .get<CategoryRequestApiInterface>(API_ENDPOINTS.SLOT_CATEGORIES)
       .pipe(
         map((res) => {
            // Filter out undefined
@@ -73,11 +72,14 @@ export class HttpDataService {
             return;
           }).filter((category): category is FilteredCategoryInterface => !!category);
         }),
-        catchError(() => {
-          return EMPTY;
-        }),
+        catchError(this.handleError),
         shareReplay(1)
       );
+  }
+
+  private handleError(error: any) {
+    console.error('An error occurred:', error);
+    return throwError(() => new Error('Something went wrong; please try again later.'));
   }
 }
 

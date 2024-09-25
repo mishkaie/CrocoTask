@@ -1,16 +1,3 @@
-<!--<div class="card-container">-->
-<!--  <div class="game-card" [ngClass]="{'first-card': i === 0}"-->
-<!--       *ngFor="let game of (games$ | async); let i = index">-->
-<!--    <img [ngSrc]="game.image" [alt]="game.name" priority class="game-image" width="100" height="100"/>-->
-<!--    <div class="overlay">-->
-<!--      <button class="play-button">Play</button>-->
-<!--    </div>-->
-<!--    <div class="game-info">-->
-<!--      <span class="game-name">{{game.name}}</span>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
 <div class="card-container">
   <ng-container *ngFor="let game of (games$ | async); let i = index">
     <app-slot-card [game]="game" [ngClass]="{'first-card': i === 0}">
