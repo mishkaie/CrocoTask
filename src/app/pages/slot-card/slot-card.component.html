@@ -1,8 +1,8 @@
 <ng-container *ngIf="game">
   <div class="game-card">
-    <img [ngSrc]="game.image" [alt]="game.name" priority class="game-image" width="100" height="100"/>
+    <img [ngSrc]="game.image" [alt]="game.name" loading="lazy" class="game-image" width="100" height="100"/>
     <div class="overlay">
-      <button class="play-button">Play</button>
+      <button class="play-button" (click)="playGame(game)">Play</button>
     </div>
     <div class="game-info">
       <span class="game-name">{{game.name}}</span>

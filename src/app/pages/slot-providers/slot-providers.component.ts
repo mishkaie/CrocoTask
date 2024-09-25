@@ -1,8 +1,8 @@
-import {Component, signal} from '@angular/core';
+import {Component, effect, signal, EffectRef, OnDestroy} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage, UpperCasePipe} from "@angular/common";
 import {HttpDataService} from "../../core/services/http-data.service";
 import { catchError, Observable, of, tap} from "rxjs";
-import {FilteredProviderInterface, ProviderInterface} from "../../core/interfaces/providerInterface";
+import {FilteredProviderInterface} from "../../core/interfaces/providerInterface";
 import {SharedStateService} from "../../core/services/shared-state.service";
 import { DEFAULT_VISIBLE_PROVIDERS } from '../../../environment/environment';
 @Component({
@@ -17,7 +17,7 @@ import { DEFAULT_VISIBLE_PROVIDERS } from '../../../environment/environment';
   templateUrl: './slot-providers.component.html',
   styleUrl: './slot-providers.component.scss'
 })
-export class SlotProvidersComponent {
+export class SlotProvidersComponent implements OnDestroy {
 
   // Using signal for show More/Less
   showMore = signal(false);
@@ -32,15 +32,25 @@ export class SlotProvidersComponent {
       return of([]);
     })
   ); // Observable to hold providers
+  private activeProviderSignal = signal<string>('');
+  private effectRef: EffectRef;
+
   constructor(
     private httpService: HttpDataService,
-    private sharedState: SharedStateService ) {}
+    private sharedState: SharedStateService ) {
+      this.effectRef = effect(() => {
+        if (this.activeProviderSignal() !== '' && this.activeProviderSignal() !== null) {
+          this.httpService.getSlotsByProvider(this.activeProviderSignal()).subscribe();
+          this.sharedState.clearActiveCategory();
+        }
+      }, { allowSignalWrites: true });  // Allow signal writes in this effect
+    }
 
   // Toggle the "See More" functionality
   toggleSeeMore() {
     if (this.showMore()) {
       // Reset to default if showing less
-      this.visibleCount.set(10);
+      this.visibleCount.set(DEFAULT_VISIBLE_PROVIDERS);
     } else {
       // Set full length of providers
       this.visibleCount.set(this.providerLength)
@@ -49,13 +59,15 @@ export class SlotProvidersComponent {
   }
 
   filterByProvider(provider: FilteredProviderInterface) {
-    //Remove active from categories
-    this.httpService.getSlotsByProvider(provider.name);
-    this.sharedState.clearActiveCategory();
-    console.log(`Filtered by: ${provider.name}`);
+    this.activeProviderSignal.set(provider.provider);
   }
 
   trackByProvider(index: number, provider: FilteredProviderInterface) {
     return provider.name;
+  }
+
+  ngOnDestroy() {
+    // Clean up the effect when the component is destroyed
+    this.effectRef.destroy();
   }
 }

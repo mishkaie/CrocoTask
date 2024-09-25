@@ -18,21 +18,18 @@ import {SharedStateService} from "../../core/services/shared-state.service";
   templateUrl: './slot-navigator.component.html',
   styleUrl: './slot-navigator.component.scss',
 })
-export class SlotNavigatorComponent implements OnInit {
-  activeCategorySignal!: Signal<FilteredCategoryInterface | null>;  // Signal for the active category
+export class SlotNavigatorComponent {
+  activeCategorySignal: Signal<FilteredCategoryInterface | null>;  // Signal for the active category
+  gameCategories$: Observable<FilteredCategoryInterface[]> = this.httpService.getSlotCategories();
   constructor(
     private httpService: HttpDataService,
     private sharedState: SharedStateService
-  ) {}
-
-  gameCategories$: Observable<FilteredCategoryInterface[]> = this.httpService.getSlotCategories();
-  ngOnInit(): void {
-    // Subscribe to the active category signal
+  ) {
     this.activeCategorySignal = this.sharedState.activeCategory$;
   }
+
   onCategorySelect(category: FilteredCategoryInterface): void {
     this.sharedState.setActiveCategory(category); // Update the active category in the service
-    // this.sharedState.updateSlotState(category)
   }
 
   trackByCategory(index: number, category: FilteredCategoryInterface): string {

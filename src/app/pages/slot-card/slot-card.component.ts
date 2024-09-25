@@ -18,10 +18,6 @@ export class SlotCardComponent {
   @Input() game: gameInterface | null = null;
 
   playGame(game: gameInterface) {
-    // Logic to play the selected game
-  }
-
-  contactSupport(game: gameInterface) {
-    // Logic to contact support for the selected game
+    console.log(game);
   }
 }
