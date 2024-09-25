@@ -1,28 +1,27 @@
 import {Component, Input} from '@angular/core';
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
+import {gameInterface} from "../../core/interfaces/gameInterface";
 
-export interface Game {
-  name: string;
-  imageUrl: string
-}
 
 @Component({
   selector: 'app-slot-card',
   standalone: true,
   imports: [
-    NgIf
+    NgIf,
+    NgOptimizedImage,
+    NgClass
   ],
   templateUrl: './slot-card.component.html',
   styleUrl: './slot-card.component.scss'
 })
 export class SlotCardComponent {
-  @Input() game: Game | null = null; // Expecting a Game object passed as an input
+  @Input() game: gameInterface | null = null;
 
-  playGame(game: Game) {
+  playGame(game: gameInterface) {
     // Logic to play the selected game
   }
 
-  contactSupport(game: Game) {
+  contactSupport(game: gameInterface) {
     // Logic to contact support for the selected game
   }
 }
