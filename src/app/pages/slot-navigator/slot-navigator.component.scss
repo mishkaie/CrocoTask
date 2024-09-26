@@ -1,4 +1,4 @@
-$line: #189541;
+@import '../../../styles/variables';
 
 .category-filter {
   display: flex;
@@ -28,7 +28,7 @@ $line: #189541;
       position: absolute;
       top: 0;
       right: -15px;
-      background-color: $line;
+      background-color: $line-color;
       color: white;
       font-size: 10px;
       padding: 2px 5px;
@@ -36,11 +36,11 @@ $line: #189541;
     }
 
     &:hover {
-      color: $line; // Change color on hover
+      color: $line-color; // Change color on hover
     }
 
     &.active {
-      border-bottom-color: $line; // Green underline for the active category
+      border-bottom-color: $line-color; // Green underline for the active category
     }
   }
 }

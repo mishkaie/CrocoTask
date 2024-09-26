@@ -1,9 +1,7 @@
-$sidebar-width: 77px;
-$background-color:  #252B33;
-$line: #189541;
+@import '../../../styles/variables';
 
 :host {
-  background-color: $background-color;
+  background-color: $sidebar-background-color;
 }
 
 .sidebar {
@@ -28,7 +26,7 @@ $line: #189541;
         margin-top: 0.3rem;
       }
       &:nth-child(4) {
-        position: relative; // Enable positioning for the line
+        position: relative;
 
         &::before {
           content: "";
@@ -37,7 +35,7 @@ $line: #189541;
           top: 0;
           height: 100%;
           width: 0.22rem;
-          background-color: $line;
+          background-color: $line-color;
           border-top-right-radius: 10px;
           border-bottom-right-radius: 10px;
         }
@@ -50,10 +48,10 @@ $line: #189541;
       &:hover {
         &:not(:first-child) {
           .icon {
-            filter: brightness(0) invert(1); // Example hover effect for the icon
+            filter: brightness(0) invert(1); // hover effect for the icon
           }
           .icon-name {
-            color: #000;  // Change text color on hover
+            color: #000;
           }
         }
       }

@@ -1,13 +1,4 @@
-// Variables for reusability
-$sidebar-width: 77px;
-$background-color: #1A1E23;
-$sidebar-background-color: #252B33;
-
-$light-background: #f4f4f4;
-$primary-color: #28a745;
-$hover-color: #218838;
-$grid-gap: 1rem;
-$grid-column-count: 4;
+@import '../styles/variables';
 
 .app-container {
   display: flex;
@@ -18,7 +9,7 @@ $grid-column-count: 4;
     flex-direction: column;
 
     .top-bar {
-      height: 60px;
+      height: $top-bar-height;
       width: 100%;
       background-color: $sidebar-background-color;
     }
@@ -36,16 +27,6 @@ $grid-column-count: 4;
         object-fit: cover;
       }
     }
-    // Top navigation styles
-    //app-sidebar {
-    //  width: $sidebar-width;
-    //  background-color: $sidebar-background-color;
-    //  color: white;
-    //  padding: 1rem;
-    //  display: flex;
-    //  height: 100vh;
-    //  flex-direction: column;
-    //}
 
     .navigation {
       margin-left: 0.5rem;
